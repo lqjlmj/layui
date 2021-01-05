@@ -33,6 +33,31 @@
         </form>
     </div>
 </body>
+<script src="js/jquery-1.12.4.js" type="text/javascript" charset="utf-8"></script>
 <script src="assets/layui.js"></script>
 <script src="js/login.js"></script>
+<script>
+	$(function(){
+		$(".login-button").click(function(){
+			var userName = $("#username").val();
+			var userPwd = $("#password").val();
+			$.ajax({
+				url:"http://127.0.0.1:8080/dzw_sys/api/employees/"+userName+"/"+userPwd,
+				typr:"get",
+				dataType:"json",
+				success:function(data){
+					if(data["code"] == 200){
+						alert("登录成功");
+						location.href="index.html";
+					}else if(data["code"]==300){
+						alert("用户名或者密码错误!!!");
+						return;
+					}
+					
+				}
+			});
+		});
+		
+	})
+</script>
 </html>
