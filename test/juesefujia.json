@@ -1,0 +1,31 @@
+{
+	"code":0,
+	"msg":"",
+	"count":5,
+	"data":[{
+		"id":1,
+		"bianHao":"G00001",
+		"name":"啦啦啦",
+		"juese":"开单员"
+	},{
+		"id":2,
+		"bianHao":"G00002",
+		"name":"喵喵喵",
+		"juese":"超级管理员"
+	},{
+		"id":3,
+		"bianHao":"G00003",
+		"name":"么么么",
+		"juese":"收银员"
+	},{
+		"id":4,
+		"bianHao":"G00004",
+		"name":"嘻嘻嘻",
+		"juese":"审核员"
+	},{
+		"id":5,
+		"bianHao":"G00005",
+		"name":"嘿嘿嘿",
+		"juese":"收银员"
+	}]
+}
