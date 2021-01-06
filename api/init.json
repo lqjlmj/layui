@@ -1,0 +1,172 @@
+{
+  "homeInfo": {
+    "title": "首页",
+    "href": "page/home.html"
+  },
+  "logoInfo": {
+    "title": "汽修管理系统",
+    "image": "images/logo.png",
+    "href": ""
+  },
+  "menuInfo": [
+    {
+      "title": "常规管理",
+      "href": "",
+      "target": "_self",
+      "child": [
+        {
+          "title": "商品管理",
+          "href": "",
+          "icon": "fa fa-shopping-cart",
+          "target": "_self",
+          "child": [
+            {
+              "title": "供货单位",
+              "href": "page/",
+              "target": "_self"
+            },
+            {
+              "title": "维修项目",
+              "href": "page/",
+              "target": "_self"
+            }
+          ]
+        },{
+          "title": "技工管理",
+          "href": "",
+          "icon": "fa fa-space-shuttle",
+          "target": "_self",
+          "child": [
+            {
+              "title": "技工星级",
+              "href": "page/",
+              "target": "_self"
+            },
+            {
+              "title": "技工组车辆",
+              "href": "page/",
+              "target": "_self"
+            },{
+              "title": "技工组",
+              "href": "page/",
+              "target": "_self"
+            }
+          ]
+        },{
+          "title": "数据管理",
+          "href": "",
+          "icon": "fa fa-database",
+          "target": "_self",
+          "child": [
+            {
+              "title": "发动机品牌",
+              "href": "page/",
+              "target": "_self"
+            },
+            {
+              "title": "车型档案",
+              "href": "page/",
+              "target": "_self"
+            }
+          ]
+        },{
+          "title": "用户管理",
+          "href": "",
+          "icon": "fa fa-user",
+          "target": "_self",
+          "child": [
+            {
+              "title": "用户车辆",
+              "href": "page/",
+              "target": "_self"
+            },
+            {
+              "title": "会员管理",
+              "href": "page/",
+              "target": "_self"
+            },{
+              "title": "用户列表",
+              "href": "page/",
+              "target": "_self"
+            }
+          ]
+        },{
+          "title": "系统管理",
+          "href": "",
+          "icon": "fa fa-windows",
+          "target": "_self",
+          "child": [
+            {
+              "title": "系统日志",
+              "href": "page/",
+              "target": "_self"
+            },
+            {
+              "title": "角色附加",
+              "href": "page/juesefujia.html",
+              "target": "_self"
+            },{
+              "title": "权限附加",
+              "href": "page/",
+              "target": "_self"
+            },{
+              "title": "基础数据",
+              "href": "page/",
+              "target": "_self"
+            },{
+              "title": "数据统计",
+              "href": "page/",
+              "target": "_self"
+            }
+          ]
+        },{
+          "title": "维修管理",
+          "href": "",
+          "icon": "fa fa-wrench",
+          "target": "_self",
+          "child": [
+            {
+              "title": "竣工检验",
+              "href": "page/",
+              "target": "_self"
+            },
+            {
+              "title": "完工结算",
+              "href": "page/",
+              "target": "_self"
+            },{
+              "title": "维修开单",
+              "href": "page/",
+              "target": "_self"
+            }
+          ]
+        },{
+          "title": "职工管理",
+          "href": "",
+          "icon": "fa fa-users",
+          "target": "_self",
+          "child": [
+            {
+              "title": "职工列表",
+              "href": "page/",
+              "target": "_self"
+            },
+            {
+              "title": "离职登记",
+              "href": "page/",
+              "target": "_self"
+            },{
+              "title": "通讯目录",
+              "href": "page/",
+              "target": "_self"
+            },{
+              "title": "岗位定义",
+              "href": "page/",
+              "target": "_self"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
