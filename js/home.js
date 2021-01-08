@@ -109,13 +109,14 @@ layui.define(['element','layer'],function(exports){
         tabs.onChange(function(data){
             var i = data.index, $this = navItems[i];
             if($this && typeof $this === 'object') {
-                $('#Nav dd').removeClass('layui-this');
+               $('#Nav dd').removeClass('layui-this');
                 $this.parent('dd').addClass('layui-this');
                 $this.closest('li.layui-nav-item')
                     .addClass('layui-nav-itemed')
                     .siblings()
                     .removeClass('layui-nav-itemed');
             }
+             
         });
 
         tabs.onDelete(function(data){

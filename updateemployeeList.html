@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<link rel="stylesheet" href="assets/css/layui.css">
+		<link rel="stylesheet" href="assets/css/admin.css">
+		<link rel="icon" href="/favicon.ico">
+		<title>职工管理-职工列表-修改</title>
+	</head>
+	<style>
+		.grid-demo-bg1 {
+			background-color: whitesmoke;
+			height: 60px;
+			line-height: 60px;
+		}
+		
+		.grid-demo-bg2 {
+			background-color: #5FB878;
+			height: 50px;
+			line-height: 50px;
+		}
+		
+		.grid-demo-bg3 {
+			background-color: whitesmoke;
+			height: 60px;
+			line-height: 60px;
+			border: 1px solid #D3D4D3;
+		}
+	</style>
+
+	<body>
+		<div class="layui-row">
+			<div class="layui-col-md12">
+				<div class="grid-demo grid-demo-bg1"><span style="font-size: 18px;padding-left: 10px;">员工卡片</span></div>
+			</div>
+		</div>
+		<div class="layui-row">&nbsp;</div>
+		<div class="layui-row">
+			<div class="layui-col-md5">&nbsp;</div>
+			<div class="layui-col-md2">
+				<h1>员工卡片</h1>
+			</div>
+			<div class="layui-col-md5">&nbsp;</div>
+		</div>
+		<div class="layui-row">&nbsp;</div>
+		<div class="layui-row">
+			<div class="layui-col-md1">&nbsp;</div>
+			<div class="layui-col-md10">
+				<div class="grid-demo grid-demo-bg2"><strong style="font-size: 15px;padding-left: 10px;">基本资料</strong></div>
+			</div>
+			<div class="layui-col-md1">&nbsp;</div>
+		</div>
+		<div class="layui-row">
+			<div class="layui-col-md2">&nbsp;</div>
+			<div class="grid-demo grid-demo-bg3">
+				<div class="layui-col-md1">
+					<span style="color: red;">*</span> <span>员工编号</span>
+				</div>
+				<div class="layui-col-md2">
+					<input type="text" name="title" required lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+				</div>
+				<div class="layui-col-md1">&nbsp;</div>
+				<div class="layui-col-md1">
+					<span style="color: red;">*</span> <span>员工姓名</span>
+				</div>
+				<div class="layui-col-md2">
+					<input type="text" name="title" required lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+				</div>
+			</div>
+		</div>
+		<div class="layui-row">
+			<div class="layui-col-md2">&nbsp;</div>
+			<div class="grid-demo grid-demo-bg3">
+				<div class="layui-col-md1">
+					<span style="color: red;">*</span> <span>性别</span>
+				</div>
+				<div class="layui-col-md2">
+					<input type="text" name="title" required lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+				</div>
+				<div class="layui-col-md1">&nbsp;</div>
+				<div class="layui-col-md1">
+					<span style="color: red;">*</span> <span>登录账号</span>
+				</div>
+				<div class="layui-col-md2">
+					<input type="text" name="title" required lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+				</div>
+			</div>
+		</div>
+		<div class="layui-row">
+			<div class="layui-col-md2">&nbsp;</div>
+			<div class="grid-demo grid-demo-bg3">
+				<div class="layui-col-md1">
+					<span style="color: red;">*</span> <span>登录密码</span>
+				</div>
+				<div class="layui-col-md2">
+					<input type="text" name="title" required lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+				</div>
+				<div class="layui-col-md1">&nbsp;</div>
+				<div class="layui-col-md1">
+					<span style="color: red;">*</span> <span>所在门店</span>
+				</div>
+				<div class="layui-col-md2">
+					<input type="text" name="title" required lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+				</div>
+			</div>
+		</div>
+		<div class="layui-row">
+			<div class="layui-col-md2">&nbsp;</div>
+			<div class="grid-demo grid-demo-bg3">
+				<div class="layui-col-md1">
+					<span style="color: red;">*</span> <span>部门</span>
+				</div>
+				<div class="layui-col-md2">
+					<input type="text" name="title" required lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+				</div>
+				<div class="layui-col-md1">&nbsp;</div>
+				<div class="layui-col-md1">
+					<span style="color: red;">*</span> <span>职位</span>
+				</div>
+				<div class="layui-col-md2">
+					<input type="text" name="title" required lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+				</div>
+			</div>
+		</div>
+		<div class="layui-row">
+			<div class="layui-col-md2">&nbsp;</div>
+			<div class="grid-demo grid-demo-bg3">
+				<div class="layui-col-md1">
+					<span>学历</span>
+				</div>
+				<div class="layui-col-md2">
+					<input type="text" name="title" required lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+				</div>
+				<div class="layui-col-md1">&nbsp;</div>
+				<div class="layui-col-md1">
+					<span style="color: red;">*</span> <span>属性</span>
+				</div>
+				<div class="layui-col-md2">
+					<input type="text" name="title" required lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+				</div>
+			</div>
+		</div>
+		<div class="layui-row">
+			<div class="layui-col-md2">&nbsp;</div>
+			<div class="grid-demo grid-demo-bg3">
+				<div class="layui-col-md1">
+					<span>毕业学校</span>
+				</div>
+				<div class="layui-col-md2">
+					<input type="text" name="title" required lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+				</div>
+				<div class="layui-col-md1">&nbsp;</div>
+				<div class="layui-col-md1">
+					<span>专业</span>
+				</div>
+				<div class="layui-col-md2">
+					<input type="text" name="title" required lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+				</div>
+			</div>
+		</div>
+		<div class="layui-row">
+			<div class="layui-col-md2">&nbsp;</div>
+			<div class="grid-demo grid-demo-bg3">
+				<div class="layui-col-md1">
+					<span>身份证号</span>
+				</div>
+				<div class="layui-col-md2">
+					<input type="text" name="title" required lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+				</div>
+				<div class="layui-col-md1">&nbsp;</div>
+				<div class="layui-col-md1">
+					<span>户口地址</span>
+				</div>
+				<div class="layui-col-md2">
+					<input type="text" name="title" required lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+				</div>
+			</div>
+		</div>
+		<div class="layui-row">
+			<div class="layui-col-md2">&nbsp;</div>
+			<div class="grid-demo grid-demo-bg3">
+				<div class="layui-col-md1">
+					<span>现居地址</span>
+				</div>
+				<div class="layui-col-md2">
+					<input type="text" name="title" required lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+				</div>
+				<div class="layui-col-md1">&nbsp;</div>
+				<div class="layui-col-md1">
+					<span>员工电话</span>
+				</div>
+				<div class="layui-col-md2">
+					<input type="text" name="title" required lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+				</div>
+			</div>
+		</div>
+		<div class="layui-row">
+			<div class="layui-col-md2">&nbsp;</div>
+			<div class="grid-demo grid-demo-bg3">
+				<div class="layui-col-md1">
+					<span>紧急电话</span>
+				</div>
+				<div class="layui-col-md2">
+					<input type="text" name="title" required lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+				</div>
+				<div class="layui-col-md1">&nbsp;</div>
+				<div class="layui-col-md1">
+					<span>Email</span>
+				</div>
+				<div class="layui-col-md2">
+					<input type="text" name="title" required lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+				</div>
+			</div>
+		</div>
+		<div class="layui-row">
+			<div class="layui-col-md2">&nbsp;</div>
+			<div class="grid-demo grid-demo-bg3">
+				<div class="layui-col-md1">
+					<span>出生日期</span>
+				</div>
+				<div class="layui-col-md2">
+					<input type="text" name="title" required lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+				</div>
+				<div class="layui-col-md1">&nbsp;</div>
+				<div class="layui-col-md1">
+					<span>入职时间</span>
+				</div>
+				<div class="layui-col-md2">
+					<input type="text" class="layui-input" id="test1">
+				</div>
+			</div>
+		</div>
+		<div class="layui-row">
+			<div class="layui-col-md2">&nbsp;</div>
+			<div class="grid-demo grid-demo-bg3">
+				<div class="layui-col-md1">
+					<span>离职时间</span>
+				</div>
+				<div class="layui-col-md2">
+					<input type="text" class="layui-input" id="test2">
+				</div>
+				<div class="layui-col-md1">&nbsp;</div>
+				<div class="layui-col-md1">
+					<span style="color: red;">*</span> <span>员工编号</span>
+				</div>
+				<div class="layui-col-md2">
+					<input type="text" name="title" required lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+				</div>
+			</div>
+		</div>
+	</body>
+	<script src="assets/layui.js"></script>
+	<script src="js/index.js"></script>
+	<script src="js/home.js" type="text/javascript" charset="utf-8"></script>
+	<script>
+		layui.use('laydate', function() {
+			var laydate = layui.laydate;
+
+			//执行一个laydate实例
+			laydate.render({
+				elem: '#test1' //指定元素
+			});
+		});
+		layui.use('laydate', function() {
+			var laydate = layui.laydate;
+
+			//执行一个laydate实例
+			laydate.render({
+				elem: '#test2'//指定元素
+			});
+		});
+	</script>
+</html>
