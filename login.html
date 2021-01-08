@@ -46,7 +46,7 @@
 			var userPwd = $("#password").val();
 			$.ajax({
 				url:"http://127.0.0.1:8080/dzw_sys/api/employees/"+userName+"/"+userPwd,
-				typr:"get",
+				type:"get",
 				dataType:"json",
 				success:function(data){
 					if(data["code"] == 200){

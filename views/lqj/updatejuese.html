@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>修改角色信息</title>
+		<link rel="stylesheet" type="text/css" href="../../assets/css/layui.css" />
+	</head>
+
+	<body>
+		<div id="app">
+			<form class="layui-form layui-form-pane" lay-filter="example">
+				<div class="layui-form-item">
+					<label class="layui-form-label" style="width:100px;">员工编码</label>
+					<div class="layui-input-inline">
+						<input type="text" name="jurisdictioncode" lay-verify="required" readonly="readonly" placeholder="请输入员工编码" autocomplete="off" class="layui-input" id="input0">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label" style="width:100px;">员工角色</label>
+					<div class="layui-input-inline">
+						<input type="text" name="jurisdictionname" lay-verify="required" placeholder="请输入员工角色" autocomplete="off" class="layui-input" id="input1">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<div class="layui-input-block" style="margin-left:160px;">
+						<button type="button" id="btn" class="layui-btn">修改</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</body>
+	<script src="../../js/jquery-1.12.4.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../assets/layui.js" type="text/javascript" charset="utf-8"></script>
+	<script>
+		layui.use('form', function() {
+			var form = layui.form;
+			var jurisdictioncode = window.location.search.substring(1);
+			$.ajax({
+				url: "http://127.0.0.1:8080/dzw_sys/api/Jurisdictions/Jurisdiction/" + jurisdictioncode,
+				type: "get",
+				dataType: "json",
+				success: function(data) {
+					$("#input0").val(data.jurisdictioncode);
+					$("#input1").val(data.jurisdictionname);
+				}
+			});
+			
+			$("#btn").click(function(){
+				var jurisdictioncode = $("[name=jurisdictioncode]").val();
+				var jurisdictionname = $("[name=jurisdictionname]").val();
+				
+				$.ajax({
+					url: "http://127.0.0.1:8080/dzw_sys/api/Jurisdictions/"+jurisdictionname+"/"+jurisdictioncode,
+					type: "post",
+					dataType: "json",
+					contentType: "application/json",
+					success: function(data) {
+						console.log(data);
+						if(data["code"] == 200) {
+							CloseWin();
+						}
+					}
+				});
+				
+			});
+			
+			function CloseWin() {
+				parent.location.reload(); // 父页面刷新
+				var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+				parent.layer.close(index); //再执行关闭 
+			}
+
+		});
+	</script>
+
+</html>
