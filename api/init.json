@@ -39,7 +39,7 @@
           "child": [
             {
               "title": "技工星级",
-              "href": "page/",
+              "href": "levelList.html",
               "target": "_self"
             },
             {

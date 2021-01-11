@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<link rel="stylesheet" href="assets/css/layui.css">
+		<link rel="stylesheet" href="assets/css/admin.css">
+		<link rel="icon" href="/favicon.ico">
+		<title>技工星级-修改</title>
+		<style>
+			input {
+				display: inline-block !important;
+			}
+			
+			#add {
+				margin-left: 30px;
+			}
+		</style>
+
+		<body>
+			<div id="app">
+				<form class="layui-form" action="">
+					<div class="layui-form-item" style="display:none ;">
+						<label class="layui-form-label">等级编号</label>
+						<div class="layui-input-block">
+							<input type="text" name="title" v-model="star.starid" autocomplete="off" placeholder="请输入星级编号" class="layui-input" id="input0">
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">等级名称</label>
+						<div class="layui-input-block">
+							<input type="text" name="title" v-model="star.starname" autocomplete="off" placeholder="请输入星级名称" class="layui-input" id="input1">
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">工/时</label>
+						<div class="layui-input-block">
+							<input type="text" name="title" v-model="star.multiple" autocomplete="off" placeholder="请输入工/时" class="layui-input" id="input2">
+						</div>
+					</div>
+					<div style="text-align: right; padding-right: 20px;">
+						<button type="button" class="layui-btn layui-btn-sm" lay-event="getCheckData" @click='update1()'>修改</button>
+						<button type="button" class="layui-btn layui-btn-sm" lay-event="getCheckData" id="add">关闭</button>
+					</div>
+				</form>
+			</div>
+		</body>
+		<script src="assets/layui.js"></script>
+		<script src="js/index.js"></script>
+		<script type="text/javascript" src="js/jquery-1.12.4.js"></script>
+		<script src="js/axios.min.js"></script>
+		<script src="js/axios_cfg.js"></script>
+		<script src="js/vue.js"></script>
+		<script src="assets/lay/modules/layer.js"></script>
+		<script>
+			layui.use(["jquery"], function() {
+				var $ = layui.jquery;
+				var id = window.location.search.substring(1);
+				// 调用方法
+				//alert(query);
+				var app = new Vue({
+					el: "#app",
+					data() {
+						return {
+							dialogImageUrl: '',
+							dialogVisible: false,
+							star: {
+								starid: '',
+								starname: '',
+								multiple: ''
+							}
+						}
+					},
+					mounted() {
+						let _this = this;
+						axios.get(`http://127.0.0.1:8080/dzw_sys/api/wss/queryStarid/${id}`).then(function(resp) {
+							console.log(resp.data)
+							_this.star = resp.data;
+							console.log(_this.star)
+						});
+					},
+					methods: {
+						update1() {
+							var starid = $("#input0").val();
+							//alert(starid);
+							/*var obj = {};
+							obj["starname"] = $("[name=\"title\"]:eq(0)").val();
+							obj["multiple"] = $("[name=\"title\"]:eq(1)").val();*/
+
+							let _this = this;
+							axios.put("http://127.0.0.1:8080/dzw_sys/api/wss/updateStar", this.star).then(function(resp) {
+								//alert(starid);
+								if(resp.data.code == "200") {
+									alert("修改成功");
+									CloseWin()
+								} else {
+									alert("修改失败");
+								}
+							});
+
+						},
+						back(){
+							layer.closeAll();
+						}
+					}
+				});
+				//var starid=$("#input0").val();
+				
+			function CloseWin() {
+				parent.location.reload(); // 父页面刷新
+				var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+				parent.layer.close(index); //再执行关闭 
+			}
+			});
+		</script>
+
+</html>

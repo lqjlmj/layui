@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<link rel="stylesheet" href="assets/css/layui.css">
+		<link rel="stylesheet" href="assets/css/admin.css">
+		<link rel="icon" href="/favicon.ico">
+		<title>人事-技工星级</title>
+	</head>
+
+	<body>
+		<table id="userList" lay-filter="userList" lay-skin="line"></table>
+	</body>
+	<script src="assets/layui.js"></script>
+	<script src="js/axios.min.js"></script>
+	<script src="js/axios_cfg.js"></script>
+	<script type="text/html" id="toolbarDemo">
+		<div class="layui-btn-container">
+			<button class="layui-btn layui-btn-sm" lay-event="getCheckData" id="add">添加</button>
+			<button class="layui-btn layui-btn-sm" lay-event="getCheckLength" id="del">删除</button>
+		</div>
+	</script>
+	<script type="text/javascript">
+		layui.use(['form', 'layer', 'table', 'laytpl'], function() {
+			var form = layui.form,
+				layer = parent.layer === undefined ? layui.layer : top.layer,
+				$ = layui.jquery,
+				laytpl = layui.laytpl,
+				table = layui.table,
+				util = layui.util;
+
+			function dateNew(d) {
+				var dateV = new Date(parseInt(d));
+				var year = dateV.getFullYear();
+				var month = dateV.getMonth() + 1;
+				month = month < 10 ? '0' + month : month;
+				var date = dateV.getDate();
+				date = date < 10 ? ("0" + date) : date;
+				var hour = dateV.getHours();
+				hour = hour < 10 ? ("0" + hour) : hour;
+				var minute = dateV.getMinutes();
+				minute = minute < 10 ? ("0" + minute) : minute;
+				var second = dateV.getSeconds();
+				second = second < 10 ? ("0" + second) : second;
+				return year + "-" + month + "-" + date;
+			}
+			//用户列表
+			var tableIns = table.render({
+				elem: '#userList',
+				url: 'http://127.0.0.1:8080/dzw_sys/api/wss/queryStarAll',
+				cellMinWidth: 95,
+				page: true,
+				toolbar: '#toolbarDemo',
+				// height : "full-120",
+				limits: [1, 2, 3, 4],
+				limit: 3,
+				id: "userListTable",
+				cols: [
+					[	{
+							fixed: 'left',
+							type: 'numbers',
+							title: '序号',
+							sort: true,
+							width: 100
+						},
+						{
+							field: 'starid',
+							title: '等级编号',
+							align: "center"
+						},
+						{
+							field: 'starname',
+							title: '等级名称',
+							align: "center"
+						},
+						{
+							field: 'multiple',
+							title: '工/时',
+							align: "center",
+							/*templet:function(d){
+								return d.detail.length;
+							}*/
+						},
+						{
+							type: "button",
+							title: '操作',
+							align: "center",
+							templet: function(d) {
+								console.log(d.starid)
+								return '<button class="layui-btn layui-btn-sm update" lay-event="getCheckData" data-id=' + d.starid + '>修改</button>'
+							}
+						},
+						{
+							type: "checkbox",
+							fixed: "right"
+						}
+					]
+				]
+			});
+			table.on('sort(userList)', function(obj) {
+				table.reload("userListTable", {
+					initSort: obj,
+					where: {
+						fieid: obj.fieid,
+						order: obj.type
+					}
+				})
+			});
+
+			$("#add").click(function() {
+				layer.open({
+					type: 2,
+					title: '添加',
+					shadeClose: true,
+					shade: false,
+					maxmin: true, //开启最大化最小化按钮
+					area: ['500px', '300px'],
+					content: 'addlevel.html'
+				});
+			})
+
+			//function update(starid) {
+			$("body").on("click", ".update", function() {
+				/*window.location.href="http://127.0.0.1:8080/dzw_sys/api/wss/queryStarid/"+starid;*/
+				//sessionStorage.setItem("starid", starid);
+				var starid = $(this).attr("data-id")
+				/*let _this = this;
+				if(starid) {
+					axios.get(`http://127.0.0.1:8080/dzw_sys/api/wss/queryStarid/${starid}`).then(function(resp) {
+						console.log(resp.data)
+						_this.starid = resp.data;
+					});
+				}*/
+				layer.open({
+					type: 2,
+					title: '修改',
+					shadeClose: true,
+					shade: false,
+					maxmin: true, //开启最大化最小化按钮
+					area: ['500px', '300px'],
+					content: 'updatelevel.html?' + starid,
+					success: function(layero, index) {
+						var body = layer.getChildFrame('body', index);
+						/*body.find("#input0").val(_this.starid.starid);
+						body.find("#input1").val(_this.starid.starname);
+						body.find("#input2").val(_this.starid.multiple);*/
+					},
+					end: function() { //失败后执行操作
+						table.reload('reportReload', {
+							/*where: { //设定异步数据接口的额外参数，任意设
+								type: type
+							},
+							page: {
+								curr: 1 //重新从第 1 页开始
+							}*/
+
+						})
+					}
+				});
+			})
+
+			//}
+			$("#del").click(function() {
+				var selectData = layui.table.checkStatus('userListTable').data;
+				console.log(selectData.length)
+				$.post("http://127.0.0.1:8080/dzw_sys/api/wss/delStar", {
+					jsonStr: JSON.stringify(selectData)
+				}, function(data) {
+					if(data) {
+						alert("删除成功");
+						CloseWin();
+						/*table.reload('userListTable', {})*/
+					} else {
+						alert("请选中再删除！！！");
+						return;
+					}
+				})
+
+			})
+
+			function CloseWin() {
+				parent.location.reload(); // 父页面刷新
+				var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+				parent.layer.close(index); //再执行关闭 
+			}
+		})
+	</script>
+
+</html>
