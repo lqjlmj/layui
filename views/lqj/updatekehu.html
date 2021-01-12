@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>修改角色信息</title>
+		<link rel="stylesheet" type="text/css" href="../../assets/css/layui.css" />
+	</head>
+
+	<body>
+		<div style="margin-top:20px;"></div>
+		<form class="layui-form" action="">
+			<div class="layui-form-item">
+				<div class="layui-inline">
+					<label class="layui-form-label">客户编号:</label>
+					<div class="layui-input-inline">
+						<input type="text" name="userno" readonly="readonly" lay-verify="required|phone" autocomplete="off" class="layui-input" id="input0">
+					</div>
+				</div>
+				<div class="layui-inline">
+					<label class="layui-form-label">客户名称:</label>
+					<div class="layui-input-inline">
+						<input type="text" name="username" lay-verify="email" autocomplete="off" class="layui-input" id="input1">
+					</div>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<div class="layui-inline">
+					<label class="layui-form-label">客户手机号:</label>
+					<div class="layui-input-inline">
+						<input type="text" name="userphone" lay-verify="required|phone" autocomplete="off" class="layui-input" id="input2">
+					</div>
+				</div>
+				<div class="layui-inline">
+					<label class="layui-form-label">客户地址:</label>
+					<div class="layui-input-inline">
+						<input type="text" name="useraddress" lay-verify="email" autocomplete="off" class="layui-input" id="input3">
+					</div>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<div class="layui-inline">
+					<label class="layui-form-label">创建日期:</label>
+					<div class="layui-input-inline">
+						<input type="date" name="usertime"  lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input" id="input4">
+					</div>
+				</div>
+				<div class="layui-inline">
+					<label class="layui-form-label">备注:</label>
+					<div class="layui-input-inline">
+						<input type="text" name="usercomment" lay-verify="required|phone" autocomplete="off" class="layui-input" id="input5">
+					</div>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<div class="layui-input-block">
+					<button type="button" id="btn" class="layui-btn" style="margin-left: 190px;">修改</button>
+				</div>
+			</div>
+		</form>
+	</body>
+	<script src="../../js/jquery-1.12.4.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../assets/layui.js" type="text/javascript" charset="utf-8"></script>
+	<script>
+		layui.use('form', function() {
+			var form = layui.form;
+			var userno = window.location.search.substring(1);
+			$.ajax({
+				url: "http://127.0.0.1:8080/dzw_sys/api/users/user/" + userno,
+				type: "get",
+				dataType: "json",
+				success: function(data) {
+					$("#input0").val(data.userno);
+					$("#input1").val(data.username);
+					$("#input2").val(data.userphone);
+					$("#input3").val(data.useraddress);
+					$("#input4").val(data.usertime);
+					$("#input5").val(data.usercomment);
+				}
+			});
+			
+			$("#btn").click(function(){
+				var userno = $("[name=userno]").val();
+				var username = $("[name=username]").val();
+				var userphone = $("[name=userphone]").val();
+				var useraddress = $("[name=useraddress]").val();
+				var usercomment = $("[name=usercomment]").val();
+				var usertime = $("[name=usertime]").val();
+				
+				var user = {};
+				/*user["armemberid"] = 1;*/
+				user["userno"] = userno;
+				user["username"] = username;
+				user["userphone"] = userphone;
+				user["useraddress"] = useraddress;
+				user["usertime"] = usertime;
+				user["usercomment"] = usercomment;
+				
+				$.ajax({
+					url: "http://127.0.0.1:8080/dzw_sys/api/users/record",
+					type: "post",
+					dataType: "json",
+					contentType: "application/json",
+					data: JSON.stringify(user),
+					success: function(data) {
+						console.log(data);
+						if(data["code"] == 200) {
+							CloseWin();
+						}
+					}
+				});
+				
+			});
+			
+			function CloseWin() {
+				parent.location.reload(); // 父页面刷新
+				var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+				parent.layer.close(index); //再执行关闭 
+			}
+
+		});
+	</script>
+
+</html>

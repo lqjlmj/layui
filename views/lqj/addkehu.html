@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>新增客户信息</title>
+		<link rel="stylesheet" type="text/css" href="../../assets/css/layui.css" />
+	</head>
+
+	<body>
+		<div style="margin-top:20px;"></div>
+		<form class="layui-form" action="">
+			<div class="layui-form-item">
+				<div class="layui-inline">
+					<label class="layui-form-label">客户编号:</label>
+					<div class="layui-input-inline">
+						<input type="text" name="userno" lay-verify="required|phone" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-inline">
+					<label class="layui-form-label">客户名称:</label>
+					<div class="layui-input-inline">
+						<input type="text" name="username" lay-verify="email" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-inline">
+					<label class="layui-form-label">请选择技工:</label>
+					<div class="layui-input-inline">
+						<select name="armemberid" class="jigong">
+							
+						</select>
+					</div>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<div class="layui-inline">
+					<label class="layui-form-label">客户手机号:</label>
+					<div class="layui-input-inline">
+						<input type="text" name="userphone" lay-verify="required|phone" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-inline">
+					<label class="layui-form-label">客户地址:</label>
+					<div class="layui-input-inline">
+						<input type="text" name="useraddress" lay-verify="email" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<div class="layui-inline">
+					<label class="layui-form-label">创建日期:</label>
+					<div class="layui-input-inline">
+						<input type="date" name="usertime" id="date" lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-inline">
+					<label class="layui-form-label">备注:</label>
+					<div class="layui-input-inline">
+						<input type="text" name="usercomment" lay-verify="required|phone" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<div class="layui-input-block">
+					<button type="button" id="btn1" class="layui-btn" style="margin-left: 250px;">立即提交</button>
+					<button type="button" id="btn2" class="layui-btn layui-btn-primary">重置</button>
+				</div>
+			</div>
+		</form>
+	</body>
+	<script src="../../js/jquery-1.12.4.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../assets/layui.js" type="text/javascript" charset="utf-8"></script>
+	<script>
+		layui.use('form', function() {
+			var form = layui.form;
+
+			$.getJSON("http://127.0.0.1:8080/dzw_sys/api/jigong", function(data1) {
+				console.log(data1);
+				$(data1).each(function(index,item){
+					var $option = "<option value='"+item["armemberid"]+"'>"+item["armembername"]+"</option>";
+					$(".jigong").append($option);
+				});
+				form.render("select");
+			});
+
+			$("#btn1").click(function() {
+				var userno = $("[name=userno]").val();
+				var username = $("[name=username]").val();
+				var armemberid = $("[name=armemberid]").val();
+				var userphone = $("[name=userphone]").val();
+				var useraddress = $("[name=useraddress]").val();
+				var usercomment = $("[name=usercomment]").val();
+				var usertime = $("[name=usertime]").val();
+
+				if(userno == "" || userno == null) {
+					alert("客户编码不能为空...");
+					return;
+				}
+				if(username == "" || username == null) {
+					alert("客户名称不能为空...");
+					return;
+				}
+				if(userphone == "" || userphone == null) {
+					alert("客户手机号不能为空...");
+					return;
+				}
+				if(useraddress == "" || useraddress == null) {
+					alert("客户地址不能为空...");
+					return;
+				}
+				if(usertime == "" || usertime == null) {
+					alert("创建日期不能为空...");
+					return;
+				}
+				if(usercomment == "" || usercomment == null) {
+					alert("备注不能为空...");
+					return;
+				}
+				/*var date1 = new Date();*/
+				var user = {};
+				user["armemberid"] = armemberid;
+				user["userno"] = userno;
+				user["username"] = username;
+				user["userphone"] = userphone;
+				user["useraddress"] = useraddress;
+				user["usertime"] = usertime;
+				user["usercomment"] = usercomment;
+
+				$.ajax({
+					url: "http://127.0.0.1:8080/dzw_sys/api/users/user",
+					type: "post",
+					dataType: "json",
+					contentType: "application/json",
+					data: JSON.stringify(user),
+					success: function(data) {
+						console.log(data);
+						if(data["code"] == 200) {
+							CloseWin();
+						}
+					}
+				});
+			});
+
+			$("#btn2").click(function() {
+				$("[name=userno]").val("");
+				$("[name=username]").val("");
+				$("[name=userphone]").val("");
+				$("[name=useraddress]").val("");
+				$("[name=usercomment]").val("");
+			});
+
+			function CloseWin() {
+				parent.location.reload(); // 父页面刷新
+				var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+				parent.layer.close(index); //再执行关闭 
+			}
+
+			//监听提交
+			/*form.on('submit(formDemo)', function(data){
+				layer.msg(JSON.stringify(data.field));
+				return false;
+			});*/
+		});
+	</script>
+
+</html>

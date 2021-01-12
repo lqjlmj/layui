@@ -32,7 +32,7 @@
 		</form>
 		<table class="layui-hide" lay-filter="demo" id="biaoge"></table>
 		<script type="text/html" id="barDemo">
-			<a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="detail">查看</a>
+			<!--<a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="detail">查看</a>-->
 			<button class="layui-btn layui-btn-xs" lay-event="edit">编辑</button>
 			<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 		</script>
@@ -58,7 +58,7 @@
 							{ field: 'useraddress', title: '客户地址' },
 							{ field: 'usertime', title: '创建日期' },
 							{ field: 'usercomment', title: '备注' },
-							{ fixed: 'right', title: '操作', toolbar: '#barDemo', width: 200 }
+							{ fixed: 'right', title: '操作', toolbar: '#barDemo', width: 160 }
 						]
 					],
 					page: true
@@ -88,19 +88,18 @@
 							});
 						});
 					} else if(obj.event === 'edit') {
-						/*layer.alert('编辑行：<br>' + JSON.stringify(data))*/
-						/*layer.open({
+						layer.open({
 							type: 2,
-							title: '修改角色信息',
+							title: '修改客户信息',
 							shadeClose: true,
 							shade: false,
 							maxmin: true, //开启最大化最小化按钮
-							area: ['420px', '260px'],
-							content: 'updatejuese.html?'+data["jurisdictioncode"],
+							area: ['700px', '350px'],
+							content: 'updatekehu.html?'+data["userno"],
 							success: function(layero, index) {
 								var body = layer.getChildFrame('body', index);
 							}
-						});*/
+						});
 					}
 				});
 
@@ -113,15 +112,15 @@
 				});
 
 				$("#tianjia").click(function() {
-					/*layer.open({
+					layer.open({
 						type: 2,
-						title: '添加角色信息',
+						title: '添加客户信息',
 						shadeClose: true,
 						shade: false,
 						maxmin: true, //开启最大化最小化按钮
-						area: ['420px', '260px'],
-						content: 'addjuese.html'
-					});*/
+						area: ['1000px', '350px'],
+						content: 'addkehu.html'
+					});
 				});
 
 			});
