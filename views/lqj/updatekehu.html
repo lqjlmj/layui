@@ -23,6 +23,14 @@
 						<input type="text" name="username" lay-verify="email" autocomplete="off" class="layui-input" id="input1">
 					</div>
 				</div>
+				<div class="layui-inline">
+					<label class="layui-form-label">请选择技工:</label>
+					<div class="layui-input-inline">
+						<select name="armemberid" class="jigong">
+							
+						</select>
+					</div>
+				</div>
 			</div>
 			<div class="layui-form-item">
 				<div class="layui-inline">
@@ -64,6 +72,17 @@
 	<script>
 		layui.use('form', function() {
 			var form = layui.form;
+			
+			$.getJSON("http://127.0.0.1:8080/dzw_sys/api/jigong", function(data1) {
+				console.log(data1);
+				$(data1).each(function(index,item){
+					var $option = "<option value='"+item["armemberid"]+"'>"+item["armembername"]+"</option>";
+					$(".jigong").append($option);
+				});
+				form.render("select");
+			});
+			
+			
 			var userno = window.location.search.substring(1);
 			$.ajax({
 				url: "http://127.0.0.1:8080/dzw_sys/api/users/user/" + userno,
