@@ -39,7 +39,7 @@
           "child": [
             {
               "title": "技工星级",
-              "href": "levelList.html",
+              "href": "views/wss/levelList.html",
               "target": "_self"
             },
             {

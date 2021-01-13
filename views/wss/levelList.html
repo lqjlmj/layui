@@ -5,8 +5,8 @@
 		<meta charset="UTF-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-		<link rel="stylesheet" href="assets/css/layui.css">
-		<link rel="stylesheet" href="assets/css/admin.css">
+		<link rel="stylesheet" href="../../assets/css/layui.css">
+		<link rel="stylesheet" href="../../assets/css/admin.css">
 		<link rel="icon" href="/favicon.ico">
 		<title>人事-技工星级</title>
 	</head>
@@ -14,9 +14,9 @@
 	<body>
 		<table id="userList" lay-filter="userList" lay-skin="line"></table>
 	</body>
-	<script src="assets/layui.js"></script>
-	<script src="js/axios.min.js"></script>
-	<script src="js/axios_cfg.js"></script>
+	<script src="../../assets/layui.js"></script>
+	<script src="../../js/axios.min.js"></script>
+	<script src="../../js/axios_cfg.js"></script>
 	<script type="text/html" id="toolbarDemo">
 		<div class="layui-btn-container">
 			<button class="layui-btn layui-btn-sm" lay-event="getCheckData" id="add">添加</button>
@@ -118,7 +118,7 @@
 					shade: false,
 					maxmin: true, //开启最大化最小化按钮
 					area: ['500px', '300px'],
-					content: 'addlevel.html'
+					content: 'views/wss/addlevel.html'
 				});
 			})
 
@@ -141,7 +141,7 @@
 					shade: false,
 					maxmin: true, //开启最大化最小化按钮
 					area: ['500px', '300px'],
-					content: 'updatelevel.html?' + starid,
+					content: 'views/wss/updatelevel.html?' + starid,
 					success: function(layero, index) {
 						var body = layer.getChildFrame('body', index);
 						/*body.find("#input0").val(_this.starid.starid);
