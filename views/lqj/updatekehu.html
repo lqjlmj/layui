@@ -27,7 +27,7 @@
 					<label class="layui-form-label">请选择技工:</label>
 					<div class="layui-input-inline">
 						<select name="armemberid" class="jigong">
-							
+							<option value=""></option>
 						</select>
 					</div>
 				</div>
@@ -67,6 +67,7 @@
 			</div>
 		</form>
 	</body>
+	<script type="text/javascript" src="../../home.js" ></script>
 	<script src="../../js/jquery-1.12.4.js" type="text/javascript" charset="utf-8"></script>
 	<script src="../../assets/layui.js" type="text/javascript" charset="utf-8"></script>
 	<script>
@@ -74,7 +75,6 @@
 			var form = layui.form;
 			
 			$.getJSON("http://127.0.0.1:8080/dzw_sys/api/jigong", function(data1) {
-				console.log(data1);
 				$(data1).each(function(index,item){
 					var $option = "<option value='"+item["armemberid"]+"'>"+item["armembername"]+"</option>";
 					$(".jigong").append($option);
@@ -95,19 +95,22 @@
 					$("#input3").val(data.useraddress);
 					$("#input4").val(data.usertime);
 					$("#input5").val(data.usercomment);
+					$(".jigong").val(data.armemberid);
+					form.render("select");
 				}
 			});
 			
 			$("#btn").click(function(){
 				var userno = $("[name=userno]").val();
 				var username = $("[name=username]").val();
+				var armemberid=$(".jigong").val();
 				var userphone = $("[name=userphone]").val();
 				var useraddress = $("[name=useraddress]").val();
 				var usercomment = $("[name=usercomment]").val();
 				var usertime = $("[name=usertime]").val();
 				
 				var user = {};
-				/*user["armemberid"] = 1;*/
+				user["armemberid"] = armemberid;
 				user["userno"] = userno;
 				user["username"] = username;
 				user["userphone"] = userphone;
