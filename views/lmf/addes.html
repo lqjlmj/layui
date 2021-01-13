@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="../../layui/css/layui.css" />
+	</head>
+
+	<body>
+		<div class="layui-inline" style="margin-top: 40px;margin-left: 80px;">
+			<label class="layui-form-label"><a style="color:red;">*</a>车型编号</label>
+			<div class="layui-input-inline">
+				<input type="tel" name="CheNo" lay-verify="required|phone" autocomplete="off" class="layui-input">
+			</div>
+		</div>
+
+		<div class="layui-inline" style="margin-top: 40px;margin-left: 80px;">
+			<label class="layui-form-label"><a style="color:red;">*</a>车型名称</label>
+			<div class="layui-input-inline">
+				<input type="tel" name="Chename" lay-verify="required|phone" autocomplete="off" class="layui-input">
+			</div>
+		</div>
+
+		<div class="layui-inline" style="margin-top: 40px;margin-left: 80px;">
+			<label class="layui-form-label"><a style="color:red;">*</a>参考价格</label>
+			<div class="layui-input-inline">
+				<input type="tel" name="Cheprice" lay-verify="required|phone" autocomplete="off" class="layui-input">
+			</div>
+		</div>
+
+		<div class="layui-form-item" style="margin-top: 50px;margin-left: 80px;">
+			<label class="layui-form-label"><a style="color:red;">*</a>车辆品牌</label>
+			<div class="layui-input-inline layui-form">
+				<select name="city" lay-verify="">
+					<option value=""></option>
+				</select>
+			</div>
+		</div>
+
+		<div class="layui-form-item" style="margin-top: 50px;margin-left: 80px;">
+			<label class="layui-form-label"><a style="color:red;">*</a>发动机品牌</label>
+			<div class="layui-input-inline layui-form">
+				<select name="city1" lay-verify="">
+					<option value=""></option>
+					
+				</select>
+			</div>
+		</div>
+
+		<!--<div class="layui-inline" style="margin-top: 30px;margin-left: 80px;">
+			<label class="layui-form-label"><a style="color:red;">*</a>车辆品牌</label>
+			<div class="layui-input-inline">
+				<input type="tel" name="phone" lay-verify="required|phone" autocomplete="off" class="layui-input">
+			</div>
+		</div>-->
+
+		<center>
+			<button type="submit" class="layui-btn" id="vehitype" lay-submit="" lay-filter="demo1">保存</button>
+		</center>
+	</body>
+	<script type="text/javascript" src="../../js/jquery-1.12.4.js"></script>
+	<script src="../../layui/layui.js"></script>
+	<script type="text/javascript">
+		layui.use('form', function() {
+			var form = layui.form,
+				layer = parent.layer === undefined ? layui.layer : top.layer,
+				$ = layui.jquery,
+				laytpl = layui.laytpl,
+				table = layui.table,
+				util = layui.util;
+
+			function dateNew(d) {
+				var dateV = new Date(parseInt(d));
+				var year = dateV.getFullYear();
+				var month = dateV.getMonth() + 1;
+				month = month < 10 ? '0' + month : month;
+				var date = dateV.getDate();
+				date = date < 10 ? ("0" + date) : date;
+				var hour = dateV.getHours();
+				hour = hour < 10 ? ("0" + hour) : hour;
+				var minute = dateV.getMinutes();
+				minute = minute < 10 ? ("0" + minute) : minute;
+				var second = dateV.getSeconds();
+				second = second < 10 ? ("0" + second) : second;
+				return year + "-" + month + "-" + date;
+			}
+
+				$.ajax({
+					url: "http://127.0.0.1:8080/dzw_sys/api/vehlmf/selectQueryAllVehicle",
+					type: "get",
+					success: function(data) {
+						if(data) {
+							$.each(data["data"],function(i,obj) {
+								var $options = "<option value = '"+obj.vbrandid+"'>" + obj.vbrandname + "</option>";
+								$("[name=city]").append($options);
+							});
+							form.render("select");
+						}
+
+					}
+				})
+			
+			$.ajax({
+					url: "http://127.0.0.1:8080/dzw_sys/api/lmf/seleQueryAllEnginTypes",
+					type: "get",
+					success: function(data) {
+						if(data) {
+							$.each(data,function(i,obj) {
+								var $options = "<option value = '"+obj.enginetypeid+"'>" + obj.enginetypename + "</option>";
+								$("[name=city1]").append($options);
+							});
+							form.render("select");
+						}
+
+					}
+				})
+			
+
+			$("#vehitype").click(function() {
+				var vtypeno = $("[name=CheNo]").val();
+				var vtypename = $("[name=Chename]").val();
+				var vprice = $("[name=Cheprice]").val();
+				var vbrandid = $("[name=city]").val();
+				var enginetypeid = $("[name=city1]").val();
+
+				var vehitype = {};
+
+				vehitype["vtypeno"] = $.trim(vtypeno);
+				vehitype["vtypename"] = vtypename;
+				vehitype["vprice"] = vprice;
+				vehitype["vbrandid"] = vbrandid;
+				vehitype["enginetypeid"] = enginetypeid;
+				
+				$.ajax({
+					url: "http://127.0.0.1:8080/dzw_sys/api/vetypelmf/addinsertSelective",
+					type: "post",
+					dataType: "json",
+					contentType: "application/json",
+					data: JSON.stringify(vehitype),
+					success: function(data) {
+						console.log(data);
+						if(data["code"] == 200) {
+							CloseWin();
+						}
+					}
+				});
+
+				/*$.post("http://127.0.0.1:8080/dzw_sys/api/vehlmf/addinsertSelective?vtypeno="+vtypeno,function(data){
+					if(data){
+						alert("成功")
+					}
+				})*/
+
+				/*$.ajax({
+					
+					url: "http://127.0.0.1:8080/dzw_sys/api/vehlmf/addinsertSelective",
+					type: "post",
+					data: {vtypeno:vtypeno,vtypename:vtypename,vprice:vprice,enginetypename:enginetypename,fuelmark:fuelmark},
+					success: function(res) {
+						alert("成功!")
+					}
+				})*/
+
+			})
+
+			function CloseWin() {
+				parent.location.reload(); // 父页面刷新
+				var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+				parent.layer.close(index); //再执行关闭 
+			}
+		});
+	</script>
+
+</html>
