@@ -3,7 +3,7 @@
 
 	<head>
 		<meta charset="utf-8">
-		<title>客户资料</title>
+		<title>车辆资料</title>
 		<link rel="stylesheet" type="text/css" href="../../alert/sweetalert.css" />
 		<link rel="stylesheet" type="text/css" href="../../assets/css/layui.css" />
 		<link rel="stylesheet" href="../../css/bootstrap.min.css" />
@@ -16,16 +16,16 @@
 	</head>
 
 	<body>
-		<h1 style="text-align: center;">客户档案</h1>
+		<h1 style="text-align: center;">车辆资料</h1>
 		<form class="layui-form" style="text-align:center;">
 			<div class="layui-form-item">
 				<div class="layui-inline">
 					<div class="layui-input-inline">
-						<input type="text" name="userno" lay-verify="required|phone" autocomplete="off" class="layui-input">
+						<input type="text" name="ulicense" lay-verify="required|phone" autocomplete="off" class="layui-input">
 					</div>
 					<button type="button" id="chaxun" class="layui-btn layui-btn-normal">查询</button>
 					<button type="button" id="tianjia" class="layui-btn">
-		  				<i class="layui-icon">&#xe608;</i> 添加客户档案
+		  				<i class="layui-icon">&#xe608;</i> 添加车辆资料
 					</button>
 				</div>
 			</div>
@@ -48,22 +48,22 @@
 
 				table.render({
 					elem: '#biaoge',
-					url: 'http://127.0.0.1:8080/dzw_sys/api/users/fenye',
+					url: 'http://127.0.0.1:8080/dzw_sys/api/cars',
 					cols: [
 						[
 							{ fixed: 'left', type: 'numbers', title: '序号', sort: true, width: 100 },
-							{ field: 'userno', title: '客户编码' },
-							{ field: 'username', title: '客户名称' },
-							{ field: 'userphone', title: '手机号' },
-							{ field: 'useraddress', title: '客户地址' },
-							{ field: 'usertime', title: '创建日期' },
-							{ field: 'usercomment', title: '备注' },
+							{ field: 'uvehicleid', title: '车辆编号' },
+							{ field: 'ulicense', title: '车牌号' },
+							{ field: 'resdriver', title: '驾驶员' },
+							{ field: 'driverphone', title: '驾驶员手机号' },
+							{ field: 'umileage', title: '车辆里程' },
+							{ field: 'registereddate', title: '上牌日期' },
+							{ field: 'buydate', title: '购买日期' },
+							{ field: 'vbrandname', title: '车辆品牌' },
 							{ fixed: 'right', title: '操作', toolbar: '#barDemo', width: 160 }
 						]
 					],
-					page: true,
-					limits: [1, 2, 3, 4],
-					limit: 3,
+					page: true
 				});
 
 				//监听工具条
@@ -74,7 +74,7 @@
 					} else if(obj.event === 'del') {
 						layer.confirm('真的删除行么', function(index) {
 							$.ajax({
-								url: "http://127.0.0.1:8080/dzw_sys/api/users/" + data["userno"],
+								url: "http://127.0.0.1:8080/dzw_sys/api/cars/" + data["uvehicleid"],
 								typr: "get",
 								dataType: "text",
 								success: function(data) {
@@ -92,12 +92,12 @@
 					} else if(obj.event === 'edit') {
 						layer.open({
 							type: 2,
-							title: '修改客户信息',
+							title: '修改车辆信息',
 							shadeClose: true,
 							shade: false,
 							maxmin: true, //开启最大化最小化按钮
 							area: ['1000px', '350px'],
-							content: 'updatekehu.html?'+data["userno"],
+							content: 'updatecar.html?'+data["ulicense"],
 							success: function(layero, index) {
 								var body = layer.getChildFrame('body', index);
 							}
@@ -106,22 +106,22 @@
 				});
 
 				$("#chaxun").click(function() {
-					var userno = $("[name=userno]").val();
+					var ulicense = $("[name=ulicense]").val();
 					table.reload('biaoge', {
-						url: 'http://127.0.0.1:8080/dzw_sys/api/users/moHu',
-						where: { userno: userno }
+						url: 'http://127.0.0.1:8080/dzw_sys/api/cars/mohu',
+						where: { ulicense: ulicense }
 					});
 				});
 
 				$("#tianjia").click(function() {
 					layer.open({
 						type: 2,
-						title: '添加客户信息',
+						title: '添加车辆信息',
 						shadeClose: true,
 						shade: false,
 						maxmin: true, //开启最大化最小化按钮
 						area: ['1000px', '350px'],
-						content: 'addkehu.html'
+						content: 'addcar.html'
 					});
 				});
 

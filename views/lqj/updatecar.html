@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>修改车辆信息</title>
+		<link rel="stylesheet" type="text/css" href="../../assets/css/layui.css" />
+	</head>
+
+	<body>
+		<div style="margin-top:20px;"></div>
+		<form class="layui-form" action="">
+			<div class="layui-form-item">
+				<div class="layui-inline">
+					<label class="layui-form-label">车牌号:</label>
+					<div class="layui-input-inline">
+						<input type="text" name="ulicense" readonly="readonly" lay-verify="required|phone" autocomplete="off" class="layui-input" id="input0">
+					</div>
+				</div>
+				<div class="layui-inline">
+					<label class="layui-form-label">驾驶员:</label>
+					<div class="layui-input-inline">
+						<input type="text" name="resdriver" lay-verify="email" autocomplete="off" class="layui-input" id="input1">
+					</div>
+				</div>
+				<div class="layui-inline">
+					<label class="layui-form-label">驾驶员号码:</label>
+					<div class="layui-input-inline">
+						<input type="text" name="driverphone" lay-verify="email" autocomplete="off" class="layui-input" id="input2">
+					</div>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<div class="layui-inline">
+					<label class="layui-form-label">车辆里程:</label>
+					<div class="layui-input-inline">
+						<input type="text" name="umileage" lay-verify="required|phone" autocomplete="off" class="layui-input" id="input3">
+					</div>
+				</div>
+				<div class="layui-inline">
+					<label class="layui-form-label">上牌日期:</label>
+					<div class="layui-input-inline">
+						<input type="date" name="registereddate" lay-verify="email" autocomplete="off" class="layui-input" id="input4">
+					</div>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<div class="layui-inline">
+					<label class="layui-form-label">购买日期:</label>
+					<div class="layui-input-inline">
+						<input type="date" name="buydate" lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input" id="input5">
+					</div>
+				</div>
+				<div class="layui-inline">
+					<label class="layui-form-label">车辆品牌:</label>
+					<div class="layui-input-inline">
+						<select name="vbrandname" class="carpinpai">
+							<option value=""></option>
+						</select>
+					</div>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<div class="layui-input-block">
+					<button type="button" id="btn" class="layui-btn" style="margin-left: 280px;">修改</button>
+				</div>
+			</div>
+		</form>
+	</body>
+	<!--<script type="text/javascript" src="../../home.js" ></script>-->
+	<script src="../../js/jquery-1.12.4.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../assets/layui.js" type="text/javascript" charset="utf-8"></script>
+	<script>
+		layui.use('form', function() {
+			var form = layui.form;
+			
+			$.getJSON("http://127.0.0.1:8080/dzw_sys/api/vehlmf/queryAllBrand", function(data1) {
+				$(data1).each(function(index,item){
+					var $option = "<option value='"+item["vbrandid"]+"'>"+item["vbrandname"]+"</option>";
+					$(".carpinpai").append($option);
+				});
+				form.render("select");
+			});
+			
+			
+			var ulicense = window.location.search.substring(1);
+			$.ajax({
+				url: "http://127.0.0.1:8080/dzw_sys/api/cars/car/"+ulicense,
+				type: "get",
+				dataType: "json",
+				success: function(data) {
+					$("#input0").val(data.ulicense);
+					$("#input1").val(data.resdriver);
+					$("#input2").val(data.driverphone);
+					$("#input3").val(data.umileage);
+					$("#input4").val(data.registereddate);
+					$("#input5").val(data.buydate);
+					$(".carpinpai").val(data.vbrandid);
+					form.render("select");
+				}
+			});
+			
+			$("#btn").click(function(){
+				var ulicense = $("[name=ulicense]").val();
+				var resdriver = $("[name=resdriver]").val();
+				var driverphone = $("[name=driverphone]").val();
+				var umileage = $("[name=umileage]").val();
+				var registereddate = $("[name=registereddate]").val();
+				var buydate = $("[name=buydate]").val();
+				var vbrandname = $("[name=vbrandname]").val();
+				
+				var car = {};
+				car["ulicense"] = ulicense;
+				car["resdriver"] = resdriver;
+				car["driverphone"] = driverphone;
+				car["umileage"] = umileage;
+				car["registereddate"] = registereddate;
+				car["buydate"] = buydate;
+				car["vbrandid"] = vbrandname;
+				
+				$.ajax({
+					url: "http://127.0.0.1:8080/dzw_sys/api/cars/record",
+					type: "post",
+					dataType: "json",
+					contentType: "application/json",
+					data: JSON.stringify(car),
+					success: function(data) {
+						console.log(data);
+						if(data["code"] == 200) {
+							CloseWin();
+						}
+					}
+				});
+				
+			});
+			
+			function CloseWin() {
+				parent.location.reload(); // 父页面刷新
+				var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+				parent.layer.close(index); //再执行关闭 
+			}
+
+		});
+	</script>
+
+</html>
