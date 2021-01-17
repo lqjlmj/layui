@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<link rel="stylesheet" href="assets/css/layui.css">
+		<link rel="stylesheet" href="assets/css/admin.css">
+		<link rel="icon" href="/favicon.ico">
+		<title>职工管理-职工列表</title>
+	</head>
+	<style>
+		#jia {
+			position: absolute;
+			margin-left: 1100px;
+		}
+		
+		#del {
+			position: absolute;
+			margin-left: 1200px;
+		}
+	</style>
+
+	<body>
+		<div class="layui-row">&nbsp;</div>
+		<div class="layui-row">
+			<div class="layui-col-md5">&nbsp;</div>
+			<div class="layui-col-md2">
+				<h1>员工组织</h1>
+			</div>
+			<div class="layui-col-md5">&nbsp;</div>
+		</div>
+		<div class="layui-row">&nbsp;</div>
+
+		
+		<table id="userList" lay-filter="userList" lay-skin="line"></table>
+		<div class="layui-row">
+			<div class="layui-col-md4">&nbsp;</div>
+			<div class="layui-col-md6">
+				<div id="test1"></div>
+			</div>
+			<div class="layui-col-md2">&nbsp;</div>
+
+		</div>
+	</body>
+	<script src="assets/layui.js"></script>
+	<script src="js/index.js"></script>
+	<script src="js/axios.min.js"></script>
+	<script src="js/axios_cfg.js"></script>
+	<script type="text/html" id="toolbarDemo">
+		<div class="layui-row">
+			<div class="layui-col-md3">&nbsp;</div>
+			<form>
+				<div class="layui-col-md1">
+					<select id="refusename" name="city" lay-verify="">
+						<option value="">请选择</option>
+					</select>
+				</div>
+			</form>
+			<div class="layui-col-md2">
+				<input type="text" id="empname" name="title" required lay-verify="required" placeholder="请输入员工姓名" autocomplete="off" class="layui-input">
+			</div>
+			<div class="layui-col-md1">
+				<button type="button" class="layui-btn" id="check"><i class="layui-icon layui-icon-search"></i>查询</button>
+			</div>
+			<div class="layui-col-md1">&nbsp;</div>
+			<div id="jia" class="layui-col-md1">
+				<a class="layui-btn layui-btn-primary"><i class="layui-icon">&#xe608;</i>新增</a>
+			</div>
+			<div class="layui-col-md1">&nbsp;</div>
+			<div id="del" class="layui-col-md1">
+				<a class="layui-btn layui-btn-primary"><i class="layui-icon">&#x1006;</i>删除</a>
+			</div>
+		</div>
+	</script>
+	<script type="text/javascript">
+		layui.use(['form', 'layer', 'table', 'laytpl'], function() {
+			var form = layui.form,
+				layer = parent.layer === undefined ? layui.layer : top.layer,
+				$ = layui.jquery,
+				laytpl = layui.laytpl,
+				table = layui.table,
+				util = layui.util;
+
+			function dateNew(d) {
+				var dateV = new Date(parseInt(d));
+				var year = dateV.getFullYear();
+				var month = dateV.getMonth() + 1;
+				month = month < 10 ? '0' + month : month;
+				var date = dateV.getDate();
+				date = date < 10 ? ("0" + date) : date;
+				var hour = dateV.getHours();
+				hour = hour < 10 ? ("0" + hour) : hour;
+				var minute = dateV.getMinutes();
+				minute = minute < 10 ? ("0" + minute) : minute;
+				var second = dateV.getSeconds();
+				second = second < 10 ? ("0" + second) : second;
+				return year + "-" + month + "-" + date;
+			}
+			//用户列表
+			var tableIns = table.render({
+				elem: '#userList',
+				url: 'http://127.0.0.1:8080/dzw_sys/api/wss/queryEmpVoAll/-1/-1',
+				cellMinWidth: 95,
+				page: true,
+				toolbar: '#toolbarDemo',
+				// height : "full-120",
+				limits: [1, 2, 3, 4],
+				limit: 3,
+				id: "userListTable",
+				cols: [
+					[{
+							title: '序号',
+							align: "center",
+							type: "numbers",
+							width: 60,
+							sort: true
+						},
+						{
+							field: 'stationid',
+							title: '岗位名称',
+							align: "center",
+							templet: function(d) {
+								console.log(d)
+								console.log();
+								return d.station.stationname;
+							}
+						},
+						{
+							field: 'eno',
+							title: '工号',
+							align: "center"
+						},
+						{
+							field: 'ename',
+							title: '姓名',
+							align: "center",
+							/*templet:function(d){
+								return d.detail.length;
+							}*/
+						},
+						{
+							field: 'esex',
+							title: '性别',
+							align: "center",
+							templet:function(d){
+								if(d.esex==1){
+									return "女";
+								}else{
+									return "男";
+								}
+							}
+						},
+						{
+							field: 'eaddress',
+							title: '现居地址',
+							align: "center",
+						},
+						{
+							field: 'ephone',
+							title: '联系电话',
+							align: "center",
+						},
+						{
+							field: 'eemail',
+							title: 'Email',
+							align: "center",
+						},
+						{
+							type: "button",
+							title: '操作',
+							align: "center",
+							templet: function(d) {
+								return '<button class="layui-btn layui-btn-sm update" lay-event="getCheckData" data-id=' + d.eid + '>修改</button>'
+							}
+						},
+						{
+							type: "checkbox",
+							fixed: "right"
+						}
+					]
+				]
+			});
+
+			table.on('sort(userList)', function(obj) {
+				table.reload("userListTable", {
+					initSort: obj,
+					where: {
+						fieid: obj.fieid,
+						order: obj.type
+					}
+				})
+			});
+
+			$.ajax({
+				type: "get",
+				dataType: 'json',
+				url: "http://127.0.0.1:8080/dzw_sys/api/wss/queryDepAll",
+				/*async:true*/
+				success: function(data) {
+					let str = "<option value=''>请选择</option>";
+					for(let i of data) {
+						str += `<option value='${i.deid}'>${i.dename}</option>`
+					}
+					$("#refusename").html(str);
+					form.render(); //重新渲染 固定写法
+				}
+			});
+
+			$("#check").click(function() {
+				var options = $("#refusename option:selected");　　　　 //获取选中项
+				var day = options.val();　
+				//rest风格不能在后台不等于null或"",所以要做以下转变
+				if(!day) {
+					day = -1;
+				}　　　　　　　　　　　　　 //获取选中项的值
+				var name = $("#empname").val();
+				if(!name) {
+					name = -1;
+				}
+				alert(day);　
+				alert(name);　
+				var tableIns = table.render({
+					elem: '#userList',
+					url: `http://127.0.0.1:8080/dzw_sys/api/wss/queryEmpVoAll/${day}/${name}`,
+					cellMinWidth: 95,
+					page: true,
+					toolbar: '#toolbarDemo',
+					// height : "full-120",
+					limits: [1, 2, 3, 4],
+					limit: 3,
+					id: "userListTable",
+					cols: [
+						[{
+								title: '序号',
+								align: "center",
+								type: "numbers",
+								width: 60,
+								sort: true
+							},
+							{
+								field: 'stationid',
+								title: '岗位名称',
+								align: "center",
+								templet: function(d) {
+								console.log(d)
+								console.log();
+								return d.station.stationname;
+								}
+							},
+							{
+								field: 'eno',
+								title: '工号',
+								align: "center"
+							},
+							{
+								field: 'ename',
+								title: '姓名',
+								align: "center",
+								/*templet:function(d){
+									return d.detail.length;
+								}*/
+							},
+							{
+								field: 'esex',
+								title: '性别',
+								align: "center",
+								templet:function(d){
+									if(d.esex==1){
+										return "女";
+									}else{
+										return "男";
+									}
+								}
+							},
+							{
+								field: 'eaddress',
+								title: '现居地址',
+								align: "center",
+							},
+							{
+								field: 'ephone',
+								title: '联系电话',
+								align: "center",
+							},
+							{
+								field: 'eemail',
+								title: 'Email',
+								align: "center",
+							},
+							{
+								type: "button",
+								title: '操作',
+								align: "center",
+								templet: function(d) {
+									return '<button class="layui-btn layui-btn-sm update" lay-event="getCheckData" data-id=' + d.starid + '>修改</button>'
+								}
+							},
+							{
+								type: "checkbox",
+								fixed: "right"
+							}
+						]
+					]
+				});
+			})
+
+			$("#jia").click(function() {
+				layer.open({
+					type: 2,
+					title: '添加',
+					shadeClose: true,
+					shade: false,
+					maxmin: true, //开启最大化最小化按钮
+					area: ['1500px', '800px'],
+					content: 'addempolyeeList.html'
+				});
+			})
+
+			$("#del").click(function() {
+				var selectData = layui.table.checkStatus('userListTable').data;
+				console.log(selectData.length)
+				$.post("http://127.0.0.1:8080/dzw_sys/api/wss/delEmp", {
+					jsonStr: JSON.stringify(selectData)
+				}, function(data) {
+					if(data) {
+						alert("删除成功");
+						CloseWin();
+						table.reload('userListTable', {})
+					} else {
+						alert("删除失败");
+					}
+				})
+
+			})
+
+			$("body").on("click", ".update", function() {
+				/*window.location.href="http://127.0.0.1:8080/dzw_sys/api/wss/queryStarid/"+starid;*/
+				//sessionStorage.setItem("starid", starid);
+				var eid = $(this).attr("data-id")
+				/*let _this = this;
+				if(starid) {
+					axios.get(`http://127.0.0.1:8080/dzw_sys/api/wss/queryStarid/${starid}`).then(function(resp) {
+						console.log(resp.data)
+						_this.starid = resp.data;
+					});
+				}*/
+				layer.open({
+					type: 2,
+					title: '修改',
+					shadeClose: true,
+					shade: false,
+					maxmin: true, //开启最大化最小化按钮
+					area: ['1500px', '800px'],
+					content: 'updateemployeeList.html?' + eid,
+					success: function(layero, index) {
+						var body = layer.getChildFrame('body', index);
+						/*body.find("#input0").val(_this.starid.starid);
+						body.find("#input1").val(_this.starid.starname);
+						body.find("#input2").val(_this.starid.multiple);*/
+					},
+					end: function() { //失败后执行操作
+						table.reload('reportReload', {
+							/*where: { //设定异步数据接口的额外参数，任意设
+								type: type
+							},
+							page: {
+								curr: 1 //重新从第 1 页开始
+							}*/
+
+						})
+					}
+				});
+			})
+
+			function CloseWin() {
+				parent.location.reload(); // 父页面刷新
+				var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+				parent.layer.close(index); //再执行关闭 
+			}
+		});
+	</script>
+
+</html>

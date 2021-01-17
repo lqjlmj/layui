@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>新增车辆信息</title>
+		<link rel="stylesheet" type="text/css" href="assets/css/layui.css" />
+	</head>
+
+	<body>
+		<div style="margin-top:20px;"></div>
+		<form class="layui-form" action="">
+			<div class="layui-form-item">
+				<div class="layui-inline">
+					<label class="layui-form-label"><span style="color: red;">*</span> 成员编号:</label>
+					<div class="layui-input-inline">
+						<input type="text" name="ararmemberno" lay-verify="required|phone" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-inline">
+					<label class="layui-form-label"><span style="color: red;">*</span> 成员姓名:</label>
+					<div class="layui-input-inline">
+						<input type="text" name="armembername" lay-verify="required|phone" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<div class="layui-inline">
+					<label class="layui-form-label"><span style="color: red;">*</span> 性别:</label>
+					<div class="layui-input-inline">
+						<select name="sex" class="sex">
+							<option value="">请选择</option>
+							<option value="0">男</option>
+							<option value="1">女</option>
+						</select>
+					</div>
+				</div>
+				<div class="layui-inline">
+					<label class="layui-form-label"><span style="color: red;">*</span> 星级名称:</label>
+					<div class="layui-input-inline">
+						<select name="xingji" class="xingji">
+							<option value=""></option>
+						</select>
+					</div>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<div class="layui-inline">
+					<label class="layui-form-label">成员手机号:</label>
+					<div class="layui-input-inline">
+						<input type="text" name="arphone" lay-verify="email" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-inline">
+					<label class="layui-form-label">成员地址:</label>
+					<div class="layui-input-inline">
+						<input type="text" name="araddress" lay-verify="email" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<div class="layui-input-block">
+					<button type="button" id="btn1" class="layui-btn" style="margin-left:130px;">立即提交</button>
+					<button type="button" id="btn2" class="layui-btn layui-btn-primary">重置</button>
+				</div>
+			</div>
+		</form>
+	</body>
+	<script src="js/jquery-1.12.4.js" type="text/javascript" charset="utf-8"></script>
+	<script src="assets/layui.js" type="text/javascript" charset="utf-8"></script>
+	<script>
+		layui.use('form', function() {
+			var form = layui.form;
+
+			$.getJSON("http://127.0.0.1:8080/dzw_sys/api/wss/xingji", function(data1) {
+				console.log(data1);
+				$(data1).each(function(index,item){
+					var $option = "<option value='"+item["starid"]+"'>"+item["starname"]+"</option>";
+					$(".xingji").append($option);
+				});
+				form.render("select");
+			});
+
+			$("#btn1").click(function() {
+				var ararmemberno = $("[name=ararmemberno]").val();
+				var armembername = $("[name=armembername]").val();
+				var xingji = $("[name=xingji]").val();
+				var sex = $("[name=sex]").val();
+				var arphone = $("[name=arphone]").val();
+				var araddress = $("[name=araddress]").val();
+
+				if(ararmemberno == "" || ararmemberno == null) {
+					alert("成员编号不能为空...");
+					return;
+				}
+				if(armembername == "" || armembername == null) {
+					alert("成员姓名不能为空...");
+					return;
+				}
+				if(xingji == "" || xingji == null) {
+					alert("星级名称不能为空...");
+					return;
+				}
+				if(sex == "" || sex == null) {
+					alert("性别不能为空...");
+					return;
+				}
+				
+				var car = {};
+				car["ararmemberno"] = ararmemberno;
+				car["armembername"] = armembername;
+				car["starid"] = xingji;
+				car["ararmembersex"] = sex;
+				car["arphone"] = arphone;
+				car["araddress"] = araddress;
+
+				$.ajax({
+					url: "http://127.0.0.1:8080/dzw_sys/api/jgxj/jg",
+					type: "post",
+					dataType: "json",
+					contentType: "application/json",
+					data: JSON.stringify(car),
+					success: function(data) {
+						console.log(data);
+						if(data["code"] == 200) {
+							CloseWin();
+						}
+					}
+				});
+			});
+
+			$("#btn2").click(function() {
+				$("[name=ararmemberno]").val("");
+				$("[name=xingji]").val("");
+				$("[name=sex]").val("");
+				$("[name=arphone]").val("");
+				$("[name=araddress]").val("");
+			});
+
+			function CloseWin() {
+				parent.location.reload(); // 父页面刷新
+				var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+				parent.layer.close(index); //再执行关闭 
+			}
+
+			//监听提交
+			/*form.on('submit(formDemo)', function(data){
+				layer.msg(JSON.stringify(data.field));
+				return false;
+			});*/
+		});
+	</script>
+
+</html>

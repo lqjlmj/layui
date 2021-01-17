@@ -48,7 +48,7 @@
               "target": "_self"
             },{
               "title": "技工组",
-              "href": "page/",
+              "href": "groupList.html",
               "target": "_self"
             }
           ]
@@ -70,13 +70,13 @@
             }
           ]
         },{
-          "title": "用户管理",
+          "title": "客户管理",
           "href": "",
           "icon": "fa fa-user",
           "target": "_self",
           "child": [
             {
-              "title": "用户车辆",
+              "title": "客户车辆",
               "href": "views/lqj/car.html",
               "target": "_self"
             },
@@ -85,7 +85,7 @@
               "href": "page/",
               "target": "_self"
             },{
-              "title": "用户列表",
+              "title": "客户列表",
               "href": "views/lqj/kehu.html",
               "target": "_self"
             }
@@ -148,12 +148,12 @@
           "child": [
             {
               "title": "职工列表",
-              "href": "page/",
+              "href": "employeesList.html",
               "target": "_self"
             },
             {
               "title": "离职登记",
-              "href": "page/",
+              "href": "dimission.html",
               "target": "_self"
             },{
               "title": "通讯目录",
@@ -161,7 +161,7 @@
               "target": "_self"
             },{
               "title": "岗位定义",
-              "href": "page/",
+              "href": "station.html",
               "target": "_self"
             }
           ]

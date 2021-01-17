@@ -2,10 +2,10 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title>车辆资料</title>
-		<link rel="stylesheet" type="text/css" href="../../alert/sweetalert.css" />
-		<link rel="stylesheet" type="text/css" href="../../assets/css/layui.css" />
-		<link rel="stylesheet" href="../../css/bootstrap.min.css" />
+		<title>技工</title>
+		<link rel="stylesheet" type="text/css" href="alert/sweetalert.css" />
+		<link rel="stylesheet" type="text/css" href="assets/css/layui.css" />
+		<link rel="stylesheet" href="css/bootstrap.min.css" />
 		<style type="text/css">
 			* {
 				margin: 0px;
@@ -15,7 +15,7 @@
 	</head>
 
 	<body>
-		<h1 style="text-align: center;">车辆资料</h1>
+		<h1 style="text-align: center;">技工组成员</h1>
 		<form class="layui-form" style="text-align:center;">
 			<div class="layui-form-item">
 				<div class="layui-inline">
@@ -24,7 +24,7 @@
 					</div>
 					<button type="button" id="chaxun" class="layui-btn layui-btn-normal">查询</button>
 					<button type="button" id="tianjia" class="layui-btn">
-		  				<i class="layui-icon">&#xe608;</i> 添加车辆资料
+		  				<i class="layui-icon">&#xe608;</i> 添加技工
 					</button>
 				</div>
 			</div>
@@ -35,34 +35,32 @@
 			<button class="layui-btn layui-btn-xs" lay-event="edit">编辑</button>
 			<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 		</script>
-		<script src="../../js/home.js" type="text/javascript" charset="utf-8"></script>
-		<script src="../../js/jquery-1.12.4.js" type="text/javascript" charset="utf-8"></script>
-		<script src="../../alert/sweetalert-dev.js" type="text/javascript" charset="utf-8"></script>
-		<script type="text/javascript" src="../../js/bootstrap.min.js"></script>
-		<script type="text/javascript" src="../../js/dialog.js"></script>
-		<script src="../../assets/layui.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/home.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/jquery-1.12.4.js" type="text/javascript" charset="utf-8"></script>
+		<script src="alert/sweetalert-dev.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" src="js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="js/dialog.js"></script>
+		<script src="assets/layui.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
 			layui.use('table', function() {
 				var table = layui.table;
 
 				table.render({
 					elem: '#biaoge',
-					url: 'http://127.0.0.1:8080/dzw_sys/api/cars',
+					url: 'http://127.0.0.1:8080/dzw_sys/api/jgxj',
 					cols: [
 						[
 							{ fixed: 'left', type: 'numbers', title: '序号', sort: true, width: 100 },
-							{ field: 'uvehicleid', title: '车辆编号' },
-							{ field: 'ulicense', title: '车牌号' },
-							{ field: 'resdriver', title: '驾驶员' },
-							{ field: 'driverphone', title: '驾驶员手机号' },
-							{ field: 'umileage', title: '车辆里程' },
-							{ field: 'registereddate', title: '上牌日期' },
-							{ field: 'buydate', title: '购买日期' },
-							{ field: 'vbrandname', title: '车辆品牌' },
+							{ field: 'armemberid', title: '成员序号' },
+							{ field: 'ararmemberno', title: '成员编号' },
+							{ field: 'armembername', title: '成员姓名' },
+							{ field: 'starname', title: '星级名称' },
+							{ field: 'arphone', title: '成员手机号' },
+							{ field: 'araddress', title: '成员地址' },
 							{ fixed: 'right', title: '操作', toolbar: '#barDemo', width: 160 }
 						]
 					],
-					page: true
+					page: false
 				});
 
 				//监听工具条
@@ -73,7 +71,7 @@
 					} else if(obj.event === 'del') {
 						layer.confirm('真的删除行么', function(index) {
 							$.ajax({
-								url: "http://127.0.0.1:8080/dzw_sys/api/cars/" + data["uvehicleid"],
+								url: "http://127.0.0.1:8080/dzw_sys/api/jgxj/" + data["armemberid"],
 								typr: "get",
 								dataType: "text",
 								success: function(data) {
@@ -89,7 +87,7 @@
 							});
 						});
 					} else if(obj.event === 'edit') {
-						layer.open({
+						/*layer.open({
 							type: 2,
 							title: '修改车辆信息',
 							shadeClose: true,
@@ -100,27 +98,27 @@
 							success: function(layero, index) {
 								var body = layer.getChildFrame('body', index);
 							}
-						});
+						});*/
 					}
 				});
 
-				$("#chaxun").click(function() {
+				/*$("#chaxun").click(function() {
 					var ulicense = $("[name=ulicense]").val();
 					table.reload('biaoge', {
 						url: 'http://127.0.0.1:8080/dzw_sys/api/cars/mohu',
 						where: { ulicense: ulicense }
 					});
 				});
-
+*/
 				$("#tianjia").click(function() {
 					layer.open({
 						type: 2,
-						title: '添加车辆信息',
+						title: '添加技工组成员',
 						shadeClose: true,
 						shade: false,
 						maxmin: true, //开启最大化最小化按钮
-						area: ['1000px', '350px'],
-						content: 'addcar.html'
+						area: ['700px', '350px'],
+						content: 'addgroup.html'
 					});
 				});
 
